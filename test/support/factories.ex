@@ -3,6 +3,7 @@ defmodule GraphqlDemo.Factories do
   Collection of factories to be used for tests
   """
   alias GraphqlDemo.Factories.AccountsFactories
+  alias GraphqlDemo.Factories.BlogFactories
   alias GraphqlDemo.Repo
 
   def build(resource, params \\ %{}), do: get_resource(resource, params)
@@ -15,4 +16,7 @@ defmodule GraphqlDemo.Factories do
 
   def get_resource(resource, params) when resource in [:user],
     do: AccountsFactories.get_resource(resource, params)
+
+  def get_resource(resource, params) when resource in [:post, :comment],
+    do: BlogFactories.get_resource(resource, params)
 end

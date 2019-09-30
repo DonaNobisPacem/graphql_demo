@@ -8,6 +8,9 @@ defmodule GraphqlDemo.Blog.Queries.CommentQueries do
   defp query_by(query, %{"id" => id} = params),
     do: query |> where([q], q.id == ^id) |> query_by(Map.delete(params, "id"))
 
+  defp query_by(query, %{"content" => content} = params),
+    do: query |> where([q], q.content == ^content) |> query_by(Map.delete(params, "content"))
+
   defp query_by(query, %{"user_id" => user_id} = params),
     do: query |> where([q], q.user_id == ^user_id) |> query_by(Map.delete(params, "user_id"))
 

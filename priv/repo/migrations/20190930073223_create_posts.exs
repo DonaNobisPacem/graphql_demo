@@ -21,14 +21,15 @@ defmodule GraphqlDemo.Repo.Migrations.CreatePosts do
       RETURNS trigger
       LANGUAGE plpgsql AS $$
         declare
-          user record;
+          creator record;
         begin
-          select * into user from users where id = new.user_id limit 1;
+          select * into creator from users where id = new.user_id;
 
           new.search_vector :=
-            setweight(to_tsvector('pg_catalog.english', coalesce(new.title, '')), 'A') ||
+            setweight(to_tsvector('pg_catalog.english', coalesce(new.title, '')), 'A')    ||
             setweight(to_tsvector('pg_catalog.english', coalesce(new.content, '')), 'B')  ||
-            setweight(to_tsvector('pg_catalog.english', coalesce(user.name, '')), 'B');
+            setweight(to_tsvector('pg_catalog.english', coalesce(creator.name, '')), 'B');
+
           return new;
         end
       $$;
