@@ -8,10 +8,36 @@ defmodule GraphqlDemo.Repo.Migrations.CreatePosts do
       add :content, :text
       add :archived_at, :utc_datetime
       add :user_id, references(:users, type: :binary_id)
+      add :search_vector, :tsvector
 
       timestamps()
     end
 
     create index(:posts, [:user_id])
+    create index(:posts, [:search_vector], using: "GIN")
+
+    execute("""
+      CREATE OR REPLACE FUNCTION posts_search_trigger()
+      RETURNS trigger
+      LANGUAGE plpgsql AS $$
+        declare
+          user record;
+        begin
+          select * into user from users where id = new.user_id limit 1;
+
+          new.search_vector :=
+            setweight(to_tsvector('pg_catalog.english', coalesce(new.title, '')), 'A') ||
+            setweight(to_tsvector('pg_catalog.english', coalesce(new.content, '')), 'B')  ||
+            setweight(to_tsvector('pg_catalog.english', coalesce(user.name, '')), 'B');
+          return new;
+        end
+      $$;
+    """)
+
+    execute("""
+      CREATE TRIGGER posts_search_trigger_update
+      BEFORE INSERT OR UPDATE ON posts
+      FOR EACH ROW EXECUTE PROCEDURE posts_search_trigger();
+    """)
   end
 end
