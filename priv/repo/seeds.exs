@@ -42,15 +42,19 @@ defmodule GraphqlDemo.Seeds do
   end
 
   defp create_posts(users) do
-    for _index <- 1..10 do
+    for _index <- 1..20 do
       user = Enum.random(users)
 
       {:ok, post} =
         Blog.create_post(%{
-          "title" => Faker.StarWars.quote(),
+          "title" => Faker.Food.dish(),
           "content" => Faker.Lorem.paragraph(),
           "user_id" => user.id
         })
+
+      if Enum.random([true, false]) do
+        Blog.delete_post(post)
+      end
 
       post
     end
@@ -58,7 +62,7 @@ defmodule GraphqlDemo.Seeds do
 
   defp create_comments(users, posts) do
     for post <- posts do
-      for _index <- 1..5 do
+      for _index <- 1..10 do
         user = Enum.random(users)
 
         {:ok, comment} =
@@ -67,6 +71,10 @@ defmodule GraphqlDemo.Seeds do
             "user_id" => user.id,
             "post_id" => post.id
           })
+
+        if Enum.random([true, false]) do
+          Blog.delete_comment(comment)
+        end
 
         comment
       end

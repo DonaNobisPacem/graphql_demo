@@ -28,6 +28,8 @@ defmodule GraphqlDemoWeb.Graphql do
 
   def loader do
     quote do
+      alias Dataloader.Ecto, as: DEcto
+      alias GraphqlDemo.Repo
     end
   end
 
