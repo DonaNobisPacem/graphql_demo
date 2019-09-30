@@ -16,7 +16,7 @@ defmodule GraphqlDemo.Accounts.User do
   @doc false
   def changeset(%__MODULE__{} = struct, params \\ %{}) do
     struct
-    |> cast(attrs, @required_attrs ++ @optional_attrs)
+    |> cast(params, @required_attrs ++ @optional_attrs)
     |> validate_required(@required_attrs)
     |> validate_inclusion(:type, @types)
   end
