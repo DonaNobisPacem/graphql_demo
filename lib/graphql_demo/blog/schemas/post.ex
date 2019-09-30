@@ -11,7 +11,7 @@ defmodule GraphqlDemo.Blog.Post do
     timestamps()
   end
 
-  @required_attrs [:title]
+  @required_attrs [:title, :user_id]
   @optional_attrs [:content]
 
   @doc false
@@ -19,5 +19,6 @@ defmodule GraphqlDemo.Blog.Post do
     struct
     |> cast(params, @required_attrs ++ @optional_attrs)
     |> validate_required(@required_attrs)
+    |> foreign_key_constraint(:user_id)
   end
 end
