@@ -6,7 +6,8 @@ defmodule GraphqlDemo.Factories.AccountsFactories do
 
   def get_resource(:user, params) do
     defaults = %User{
-      name: "User Name"
+      name: "User Name",
+      email: "user@email.com"
     }
 
     Map.merge(defaults, params)

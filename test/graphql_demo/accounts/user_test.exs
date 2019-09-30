@@ -4,7 +4,7 @@ defmodule GraphqlDemo.Accounts.UserTest do
 
   setup do
     user = insert(:user)
-    insert(:user, %{name: "other user"})
+    insert(:user, %{name: "other user", email: "otheruser@email.com"})
 
     {:ok, user: user}
   end
@@ -54,7 +54,7 @@ defmodule GraphqlDemo.Accounts.UserTest do
   end
 
   describe "create_user/1" do
-    @valid_attrs %{"name" => "newuser@user.com"}
+    @valid_attrs %{"email" => "newuser@user.com", "name" => "New User"}
     @invalid_attrs %{}
 
     test "creates a user resource when params are valid" do
@@ -69,7 +69,7 @@ defmodule GraphqlDemo.Accounts.UserTest do
 
   describe "update_user/2" do
     @valid_attrs %{
-      "name" => "updateuser@name.com"
+      "name" => "Update User"
     }
     @invalid_attrs %{
       "name" => nil
