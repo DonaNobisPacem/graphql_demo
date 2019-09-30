@@ -12,10 +12,12 @@ defmodule GraphqlDemo.Accounts.Resolvers.UserResolvers do
     |> Repo.all()
     |> case do
       [] -> {:ok, nil}
-      [result | nil] -> {:ok, result}
+      [result | []] -> {:ok, result}
       _result -> {:error, "query returned more than one result"}
     end
   end
+
+  def find_user(_params), do: {:error, "invalid query params"}
 
   def create_user(params), do: params |> UserMutations.create_user_changeset() |> Repo.insert()
 

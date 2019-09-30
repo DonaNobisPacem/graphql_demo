@@ -9,5 +9,8 @@ defmodule GraphqlDemo.Accounts.Mutations.UserMutations do
   def update_user_changeset(%User{} = user, params), do: build_user_changeset(user, params)
 
   def delete_user_changeset(%User{} = user),
-    do: user |> build_user_changeset |> put_change(:archived_at, DateTime.utc_now())
+    do:
+      user
+      |> build_user_changeset
+      |> put_change(:archived_at, DateTime.truncate(DateTime.utc_now(), :second))
 end

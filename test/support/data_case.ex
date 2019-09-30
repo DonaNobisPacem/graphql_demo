@@ -22,6 +22,7 @@ defmodule GraphqlDemo.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import GraphqlDemo.DataCase
+      import GraphqlDemo.Factories
     end
   end
 
