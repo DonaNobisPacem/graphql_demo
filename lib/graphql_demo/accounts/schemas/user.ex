@@ -7,6 +7,9 @@ defmodule GraphqlDemo.Accounts.User do
     field :type, :string, default: "regular"
     field :archived_at, :utc_datetime
 
+    has_many :posts, GraphqlDemo.Blog.Post
+    has_many :comments, GraphqlDemo.Blog.Comment
+
     timestamps()
   end
 

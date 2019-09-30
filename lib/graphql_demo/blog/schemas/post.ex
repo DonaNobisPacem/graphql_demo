@@ -7,6 +7,7 @@ defmodule GraphqlDemo.Blog.Post do
     field :archived_at, :utc_datetime
 
     belongs_to :user, GraphqlDemo.Accounts.User
+    has_many :comments, GraphqlDemo.Blog.Comment
 
     timestamps()
   end
