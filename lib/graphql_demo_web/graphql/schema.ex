@@ -48,8 +48,8 @@ defmodule GraphqlDemoWeb.Graphql.Schema do
     import_fields(:comment_mutations)
   end
 
-  subscription do
-  end
+  # subscription do
+  # end
 
   def context(ctx) do
     Map.put(ctx, :loader, dataloader())

@@ -8,7 +8,7 @@ defmodule GraphqlDemoWeb.Graphql.Blog.Mutations.PostMutations do
       arg(:title, non_null(:string))
       arg(:content, non_null(:string))
 
-      resolve(&PostResolvers.create_post/2)
+      resolve(fn args, context -> authenticator(args, context, &PostResolvers.create_post/2) end)
     end
 
     @desc "Update a post with given params"
@@ -17,14 +17,14 @@ defmodule GraphqlDemoWeb.Graphql.Blog.Mutations.PostMutations do
       arg(:title, :string)
       arg(:content, :string)
 
-      resolve(&PostResolvers.update_post/2)
+      resolve(fn args, context -> authenticator(args, context, &PostResolvers.update_post/2) end)
     end
 
     @desc "Delete a post with given params"
     field :delete_post, type: :post do
       arg(:id, non_null(:id))
 
-      resolve(&PostResolvers.delete_post/2)
+      resolve(fn args, context -> authenticator(args, context, &PostResolvers.delete_post/2) end)
     end
   end
 end

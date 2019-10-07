@@ -22,6 +22,11 @@ defmodule GraphqlDemoWeb.Helpers.GraphqlHelpers do
 
   def stringify_keys(map), do: map |> Jason.encode!() |> Jason.decode!()
 
+  def authenticator(args, %{context: %{current_user: _current_user}} = context, resolver),
+    do: resolver.(args, context)
+
+  def authenticator(_args, _context, _function), do: {:error, "unauthenticated"}
+
   defp extract_message(string) when is_binary(string), do: string
 
   defp extract_message({k, v}), do: humanize_string(k) <> " " <> extract_message(v)

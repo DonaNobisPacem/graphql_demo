@@ -5,6 +5,7 @@ defmodule GraphqlDemoWeb.Graphql do
     quote do
       use Notation
       import Absinthe.Resolution.Helpers, only: [dataloader: 1]
+      import GraphqlDemoWeb.Helpers.GraphqlHelpers, only: [authenticator: 3]
     end
   end
 

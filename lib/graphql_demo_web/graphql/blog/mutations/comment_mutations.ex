@@ -8,7 +8,9 @@ defmodule GraphqlDemoWeb.Graphql.Blog.Mutations.CommentMutations do
       arg(:content, non_null(:string))
       arg(:post_id, non_null(:id))
 
-      resolve(&CommentResolvers.create_comment/2)
+      resolve(fn args, context ->
+        authenticator(args, context, &CommentResolvers.create_comment/2)
+      end)
     end
 
     @desc "Update a comment with given params"
@@ -17,14 +19,18 @@ defmodule GraphqlDemoWeb.Graphql.Blog.Mutations.CommentMutations do
       arg(:content, :string)
       arg(:post_id, non_null(:id))
 
-      resolve(&CommentResolvers.update_comment/2)
+      resolve(fn args, context ->
+        authenticator(args, context, &CommentResolvers.update_comment/2)
+      end)
     end
 
     @desc "Delete a comment with given params"
     field :delete_comment, type: :comment do
       arg(:id, non_null(:id))
 
-      resolve(&CommentResolvers.delete_comment/2)
+      resolve(fn args, context ->
+        authenticator(args, context, &CommentResolvers.delete_comment/2)
+      end)
     end
   end
 end
