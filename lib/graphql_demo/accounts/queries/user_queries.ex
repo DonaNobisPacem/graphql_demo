@@ -8,6 +8,9 @@ defmodule GraphqlDemo.Accounts.Queries.UserQueries do
   defp query_by(query, %{"id" => id} = params),
     do: query |> where([q], q.id == ^id) |> query_by(Map.delete(params, "id"))
 
+  defp query_by(query, %{"email" => email} = params),
+    do: query |> where([q], q.email == ^email) |> query_by(Map.delete(params, "email"))
+
   defp query_by(query, %{"name" => name} = params),
     do: query |> where([q], q.name == ^name) |> query_by(Map.delete(params, "name"))
 

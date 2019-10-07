@@ -20,9 +20,12 @@ defmodule GraphqlDemoWeb.Graphql.Accounts.Queries.UserQueries do
 
     @desc "Returns current_user"
     field :account, type: :user do
-      resolve(fn _, _, %{context: %{current_user: current_user}} ->
-        {:ok, current_user}
-      end)
+      resolve(&fetch_current_user/3)
     end
   end
+
+  defp fetch_current_user(_, _, %{context: %{current_user: current_user}}),
+    do: {:ok, current_user}
+
+  defp fetch_current_user(_, _, _context), do: {:error, "unauthorized"}
 end
