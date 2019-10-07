@@ -1,5 +1,6 @@
 defmodule GraphqlDemoWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :graphql_demo
+  use Absinthe.Phoenix.Endpoint
 
   socket "/socket", GraphqlDemoWeb.UserSocket,
     websocket: true,

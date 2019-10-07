@@ -11,7 +11,8 @@ defmodule GraphqlDemo.Application do
       # Start the Ecto repository
       GraphqlDemo.Repo,
       # Start the endpoint when the application starts
-      GraphqlDemoWeb.Endpoint
+      GraphqlDemoWeb.Endpoint,
+      {Absinthe.Subscription, [GraphqlDemoWeb.Endpoint]}
       # Starts a worker by calling: GraphqlDemo.Worker.start_link(arg)
       # {GraphqlDemo.Worker, arg},
     ]

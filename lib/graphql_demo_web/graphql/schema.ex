@@ -9,11 +9,13 @@ defmodule GraphqlDemoWeb.Graphql.Schema do
   alias GraphqlDemoWeb.Graphql.Blog.Queries.PostQueries
   alias GraphqlDemoWeb.Graphql.Blog.Types.PostType
   alias GraphqlDemoWeb.Graphql.Blog.Loaders.PostLoader
+  alias GraphqlDemoWeb.Graphql.Blog.Subscriptions.PostSubscriptions
 
   alias GraphqlDemoWeb.Graphql.Blog.Mutations.CommentMutations
   alias GraphqlDemoWeb.Graphql.Blog.Queries.CommentQueries
   alias GraphqlDemoWeb.Graphql.Blog.Types.CommentType
   alias GraphqlDemoWeb.Graphql.Blog.Loaders.CommentLoader
+  alias GraphqlDemoWeb.Graphql.Blog.Subscriptions.CommentSubscriptions
 
   # TYPES
   import_types(Absinthe.Plug.Types)
@@ -34,7 +36,8 @@ defmodule GraphqlDemoWeb.Graphql.Schema do
   import_types(CommentMutations)
 
   # SUBSCRIPTIONS
-  # import_types(CommentSubscriptions)
+  import_types(PostSubscriptions)
+  import_types(CommentSubscriptions)
 
   query do
     import_fields(:user_queries)
@@ -48,8 +51,10 @@ defmodule GraphqlDemoWeb.Graphql.Schema do
     import_fields(:comment_mutations)
   end
 
-  # subscription do
-  # end
+  subscription do
+    import_fields(:post_subscriptions)
+    import_fields(:comment_subscriptions)
+  end
 
   def context(ctx) do
     Map.put(ctx, :loader, dataloader())

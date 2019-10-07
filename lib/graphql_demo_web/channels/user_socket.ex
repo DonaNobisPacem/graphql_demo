@@ -1,5 +1,7 @@
 defmodule GraphqlDemoWeb.UserSocket do
   use Phoenix.Socket
+  use Absinthe.Phoenix.Socket, schema: GraphqlDemoWeb.Graphql.Schema
+  alias GraphqlDemo.Accounts
 
   ## Channels
   # channel "room:*", GraphqlDemoWeb.RoomChannel
@@ -15,6 +17,17 @@ defmodule GraphqlDemoWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
+  def connect(%{"Authorization" => "Bearer " <> email} = _params, socket, _connect_info) do
+    context =
+      case Accounts.find_user(%{"email" => email}) do
+        {:ok, user} -> %{current_user: user}
+        {:error, _message} -> %{}
+      end
+
+    socket = Absinthe.Phoenix.Socket.put_options(socket, context: context)
+    {:ok, socket}
+  end
+
   def connect(_params, socket, _connect_info) do
     {:ok, socket}
   end
